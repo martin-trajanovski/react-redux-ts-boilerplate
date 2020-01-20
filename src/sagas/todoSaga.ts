@@ -12,7 +12,7 @@ function* fetchTodosAsync(action: FetchTodosAction): Generator {
     const data = yield call(todoService.getAll, action.limitTo);
 
     yield put(fetchTodosSuccess(data as Todo[]));
-  } catch (error)  {
+  } catch (error) {
     yield put(fetchTodosFailed());
   }
 }
