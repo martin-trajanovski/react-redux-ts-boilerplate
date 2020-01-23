@@ -6,7 +6,7 @@ import { AppState } from 'src/reducers';
 import { fetchTodos } from 'src/actions';
 
 const TodoList: React.FC = () => {
-  const todos = useSelector((state: AppState) => state.todos.items);
+  const todoState = useSelector((state: AppState) => state.todos);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -14,13 +14,19 @@ const TodoList: React.FC = () => {
     dispatch(fetchTodos(limitTo));
   }, [dispatch]);
 
-  return (
-    <div className="todo-list">
-      {todos.map((todo: Todo) => (
-        <TodoItem key={todo.id} todo={todo} />
-      ))}
-    </div>
-  );
+  if (todoState.loading) {
+    return (
+      <div className="todo-list">
+        <div>Loading...</div>
+      </div>
+    );
+  }
+
+  const todoItems = todoState.items.map((todo: Todo) => (
+    <TodoItem key={todo.id} todo={todo} />
+  ));
+
+  return <div className="todo-list">{todoItems}</div>;
 };
 
 export default TodoList;
