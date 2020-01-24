@@ -6,24 +6,26 @@ import {
 } from '../../config/setupTests';
 import { fetchTodosSuccess } from '../../actions';
 
-test('should display todos correctly', () => {
-  const { container, store, getByText } = renderWithRedux(<TodoList />);
+describe('TodoList component', () => {
+  test(`When rendering the component,
+    should display "Loading..." text initially and after dispatching "fetchTodoSuccess" should render todos correctly`, () => {
+    const { container, store, getByText } = renderWithRedux(<TodoList />);
 
-  // NOTE: Expect to show loading at the first render.
-  expect(getByText('Loading...')).toBeInTheDocument();
+    // NOTE: Expect to show loading at the first render.
+    expect(getByText('Loading...')).toBeInTheDocument();
 
-  // NOTE: Should dispatch success manually because it is not called automatically.
-  store.dispatch(fetchTodosSuccess(initialTestingAppState.todos.items));
+    // NOTE: Should dispatch success manually because it is not called automatically.
+    store.dispatch(fetchTodosSuccess(initialTestingAppState.todos.items));
 
-  const todoList = container.querySelectorAll('.todo-item');
+    const todoList = container.querySelectorAll('.todo-item');
+    expect(todoList.length).toBe(1);
+  });
 
-  expect(todoList.length).toBe(1);
-});
+  test('When rendering the component, should match the snapshot', () => {
+    const { asFragment, store } = renderWithRedux(<TodoList />);
 
-test('should render todos correctly', () => {
-  const { asFragment, store } = renderWithRedux(<TodoList />);
+    store.dispatch(fetchTodosSuccess(initialTestingAppState.todos.items));
 
-  store.dispatch(fetchTodosSuccess(initialTestingAppState.todos.items));
-
-  expect(asFragment()).toMatchSnapshot();
+    expect(asFragment()).toMatchSnapshot();
+  });
 });

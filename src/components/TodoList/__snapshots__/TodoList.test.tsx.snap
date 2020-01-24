@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should render todos correctly 1`] = `
+exports[`TodoList component When rendering the component, should match the snapshot 1`] = `
 <DocumentFragment>
   <div
     class="todo-list"

@@ -6,64 +6,60 @@ import {
   initialTestingAppState,
 } from '../../config/setupTests';
 
-test('should render todo item with remove icon', () => {
-  const [initialTodo] = initialTestingAppState.todos.items;
+describe('TodoItem component', () => {
+  test('When rendering the component, should show it with red remove(trash) icon', () => {
+    const [initialTodo] = initialTestingAppState.todos.items;
+    const { container } = renderWithRedux(<TodoItem todo={initialTodo} />, {
+      initialState: initialTestingAppState,
+    });
 
-  const { container } = renderWithRedux(<TodoItem todo={initialTodo} />, {
-    initialState: initialTestingAppState,
+    const todoItemText = container.querySelector('.todo-item-text');
+    const todoItemTrashIcon = container.querySelector('.fa-trash');
+
+    expect(todoItemText.innerHTML).toBe(initialTodo.title);
+    expect(todoItemTrashIcon.nodeName).toBe('svg');
+    expect(todoItemTrashIcon).toHaveClass('float-right');
+    expect(todoItemTrashIcon).toHaveAttribute('color', '#dc3545');
   });
 
-  const todoItemText = container.querySelector('.todo-item-text');
-  const todoItemTrashIcon = container.querySelector('.fa-trash');
+  test('When clicking on todo text, should complete todo', () => {
+    const [initialTodo] = initialTestingAppState.todos.items;
+    const {
+      container,
+      store: { getState },
+    } = renderWithRedux(<TodoItem todo={initialTodo} />, {
+      initialState: initialTestingAppState,
+    });
+    const todoItem = container.querySelector('.todo-item');
 
-  expect(todoItemText.innerHTML).toBe(initialTodo.title);
+    expect(todoItem).not.toHaveClass('completed');
 
-  expect(todoItemTrashIcon.nodeName).toBe('svg');
-  expect(todoItemTrashIcon).toHaveClass('float-right');
-  expect(todoItemTrashIcon).toHaveAttribute('color', '#dc3545');
-});
+    const todoItemText = container.querySelector('.todo-item-text');
 
-test('should check complete todo functionality', () => {
-  const [initialTodo] = initialTestingAppState.todos.items;
+    fireEvent.click(todoItemText);
 
-  const {
-    container,
-    store: { getState },
-  } = renderWithRedux(<TodoItem todo={initialTodo} />, {
-    initialState: initialTestingAppState,
+    const [initialTodoFromStore] = getState().todos.items;
+
+    expect(initialTodoFromStore.completed).toBeTruthy();
+
+    fireEvent.click(todoItemText);
+
+    expect(initialTodoFromStore.completed).toBeFalsy();
   });
 
-  const todoItem = container.querySelector('.todo-item');
-  expect(todoItem).not.toHaveClass('completed');
+  test('When clicking on todo trash icon, should remove todo successfully', () => {
+    const [initialTodo] = initialTestingAppState.todos.items;
+    const {
+      container,
+      store: { getState },
+    } = renderWithRedux(<TodoItem todo={initialTodo} />, {
+      initialState: initialTestingAppState,
+    });
+    const todoItemTrashIcon = container.querySelector('.fa-trash');
 
-  const todoItemText = container.querySelector('.todo-item-text');
+    fireEvent.click(todoItemTrashIcon);
 
-  fireEvent.click(todoItemText);
-
-  const [initialTodoFromStore] = getState().todos.items;
-
-  expect(initialTodoFromStore.completed).toBeTruthy();
-
-  fireEvent.click(todoItemText);
-
-  expect(initialTodoFromStore.completed).toBeFalsy();
-});
-
-test('should remove todo successfully', () => {
-  const [initialTodo] = initialTestingAppState.todos.items;
-
-  const {
-    container,
-    store: { getState },
-  } = renderWithRedux(<TodoItem todo={initialTodo} />, {
-    initialState: initialTestingAppState,
+    const todosAfterRemove = getState().todos;
+    expect(todosAfterRemove).not.toContain(initialTodo);
   });
-
-  const todoItemTrashIcon = container.querySelector('.fa-trash');
-
-  fireEvent.click(todoItemTrashIcon);
-
-  const todosAfterRemove = getState().todos;
-
-  expect(todosAfterRemove).not.toContain(initialTodo);
 });
