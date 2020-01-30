@@ -1,9 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { useDispatch } from 'react-redux';
-import { toggleTodo, removeTodo } from '../../actions';
 import { Todo } from 'src/interfaces';
+
+import { updateTodo, removeTodo } from '../../actions';
 import './TodoItem.scss';
 
 type TodoItemProps = {
@@ -15,11 +16,13 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
   const dispatch = useDispatch();
 
   const handleToggleClick = (): void => {
-    dispatch(toggleTodo(todo.id));
+    const updatedTodo = { ...todo, completed: !todo.completed };
+
+    dispatch(updateTodo(updatedTodo));
   };
 
   const handleRemoveClick = (): void => {
-    dispatch(removeTodo(todo.id));
+    dispatch(removeTodo(todo._id));
   };
 
   return (
@@ -39,7 +42,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
 
 TodoItem.propTypes = {
   todo: PropTypes.shape({
-    id: PropTypes.string.isRequired,
+    _id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     completed: PropTypes.bool.isRequired,
   }).isRequired,

@@ -71,5 +71,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/faker": "^4.1.9",
+    "eslint-plugin-import": "^2.20.0",
+    "faker": "^4.1.0",
+    "nock": "^11.7.2"
   }
 }

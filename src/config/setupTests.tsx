@@ -3,10 +3,10 @@
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom/extend-expect';
-import React from 'react';
 import { render, RenderResult } from '@testing-library/react';
-import { createStore, Store } from 'redux';
+import React from 'react';
 import { Provider } from 'react-redux';
+import { createStore, Store } from 'redux';
 
 import { rootReducer, AppState } from '../reducers';
 import registerIcons from './registerIcons';
@@ -15,8 +15,9 @@ registerIcons();
 
 export const initialTestingAppState: AppState = {
   todos: {
-    items: [{ id: 'test', title: 'Test todo app', completed: false }],
+    items: [{ _id: 'test', title: 'Test todo app', completed: false }],
     loading: false,
+    saving: false,
     error: false,
   },
 };

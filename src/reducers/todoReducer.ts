@@ -1,10 +1,10 @@
-import { ID } from '../helpers/idGenerator';
-import { Todo, TodosReducerActions, TodoState } from 'src/interfaces';
 import { ReduxActionTypes } from 'src/actions';
+import { Todo, TodosReducerActions, TodoState } from 'src/interfaces';
 
 export const initialState: TodoState = {
   items: [],
   loading: false,
+  saving: false,
   error: false,
 };
 
@@ -14,37 +14,49 @@ export const todoReducer = (
 ): TodoState => {
   switch (action.type) {
     case ReduxActionTypes.FETCH_TODOS_STARTED: {
-      // TODO: Should introduce loading param.
       return { ...state, loading: true };
     }
     case ReduxActionTypes.FETCH_TODOS_SUCCESS: {
-      // TODO: Should introduce loading param.
-      return {
-        ...state,
-        items: action.data,
-        loading: false,
-      };
+      return { ...state, items: action.data, loading: false };
     }
     case ReduxActionTypes.FETCH_TODOS_FAILED: {
-      // TODO: Should introduce loading param.
-      return {
-        ...state,
-        loading: false,
-        error: true,
-      };
+      return { ...state, loading: false, error: true };
     }
-    case ReduxActionTypes.ADD_TODO: {
-      const newTodo = {
-        id: ID(),
-        title: action.todo.title,
-        completed: false,
-      };
+    case ReduxActionTypes.ADD_TODO_STARTED: {
+      return { ...state, saving: true };
+    }
+    case ReduxActionTypes.ADD_TODO_SUCEESS: {
+      return { ...state, saving: false, items: [...state.items, action.todo] };
+    }
+    case ReduxActionTypes.ADD_TODO_FAILED: {
+      return { ...state, saving: false, error: true };
+    }
+    case ReduxActionTypes.UPDATE_TODO_STARTED: {
+      return { ...state, saving: true };
+    }
+    case ReduxActionTypes.UPDATE_TODO_SUCCESS: {
+      const updatedTodos = state.items.map(todo => {
+        if (todo._id === action.todo._id) {
+          return {
+            ...todo,
+            ...action.todo,
+          };
+        }
 
-      return { ...state, items: [...state.items, newTodo] };
+        return todo;
+      });
+
+      return { ...state, saving: false, items: updatedTodos };
     }
-    case ReduxActionTypes.REMOVE_TODO: {
+    case ReduxActionTypes.UPDATE_TODO_FAILED: {
+      return { ...state, saving: false, error: true };
+    }
+    case ReduxActionTypes.REMOVE_TODO_STARTED: {
+      return { ...state, saving: true };
+    }
+    case ReduxActionTypes.REMOVE_TODO_SUCCESS: {
       const removeIndex = state.items.findIndex(
-        (todo: Todo) => todo.id === action.id
+        (todo: Todo) => todo._id === action.todo._id
       );
 
       const newTodos = [...state.items];
@@ -52,22 +64,12 @@ export const todoReducer = (
 
       return {
         ...state,
+        saving: false,
         items: newTodos,
       };
     }
-
-    case ReduxActionTypes.TOGGLE_TODO: {
-      const toggleIndex = state.items.findIndex(
-        (todo: Todo) => todo.id === action.id
-      );
-
-      const newTodos: Todo[] = [...state.items];
-      newTodos[toggleIndex].completed = !newTodos[toggleIndex].completed;
-
-      return {
-        ...state,
-        items: newTodos,
-      };
+    case ReduxActionTypes.REMOVE_TODO_FAILED: {
+      return { ...state, saving: false, error: true };
     }
     default:
       return state;

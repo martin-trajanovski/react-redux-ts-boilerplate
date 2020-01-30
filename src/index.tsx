@@ -6,10 +6,10 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import createSagaMiddleware from 'redux-saga';
 
 import './index.scss';
-import { rootReducer } from './reducers';
 import App from './components/App';
-import * as serviceWorker from './config/serviceWorker';
 import registerIcons from './config/registerIcons';
+import * as serviceWorker from './config/serviceWorker';
+import { rootReducer } from './reducers';
 import rootSaga from './sagas';
 
 registerIcons();

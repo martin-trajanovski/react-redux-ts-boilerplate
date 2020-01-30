@@ -1,11 +1,18 @@
-import React from 'react';
 import { fireEvent } from '@testing-library/react';
-import TodoItem from '.';
+import React from 'react';
+
+import { updateTodoSuccess, removeTodoSuccess } from '../../actions';
 import {
   renderWithRedux,
   initialTestingAppState,
 } from '../../config/setupTests';
 
+import TodoItem from '.';
+
+/**
+ * TODO: Review the tests here. They are too big and complex.
+ * Test just the presentational layer not the reducers, they are tested separately!
+ */
 describe('TodoItem component', () => {
   test('When rendering the component, should show it with red remove(trash) icon', () => {
     const [initialTodo] = initialTestingAppState.todos.items;
@@ -26,7 +33,7 @@ describe('TodoItem component', () => {
     const [initialTodo] = initialTestingAppState.todos.items;
     const {
       container,
-      store: { getState },
+      store: { getState, dispatch },
     } = renderWithRedux(<TodoItem todo={initialTodo} />, {
       initialState: initialTestingAppState,
     });
@@ -37,29 +44,29 @@ describe('TodoItem component', () => {
     const todoItemText = container.querySelector('.todo-item-text');
 
     fireEvent.click(todoItemText);
+    dispatch(
+      updateTodoSuccess({ ...initialTodo, completed: !initialTodo.completed })
+    );
 
     const [initialTodoFromStore] = getState().todos.items;
 
     expect(initialTodoFromStore.completed).toBeTruthy();
-
-    fireEvent.click(todoItemText);
-
-    expect(initialTodoFromStore.completed).toBeFalsy();
   });
 
   test('When clicking on todo trash icon, should remove todo successfully', () => {
     const [initialTodo] = initialTestingAppState.todos.items;
     const {
       container,
-      store: { getState },
+      store: { getState, dispatch },
     } = renderWithRedux(<TodoItem todo={initialTodo} />, {
       initialState: initialTestingAppState,
     });
     const todoItemTrashIcon = container.querySelector('.fa-trash');
 
     fireEvent.click(todoItemTrashIcon);
+    dispatch(removeTodoSuccess(initialTodo));
 
-    const todosAfterRemove = getState().todos;
-    expect(todosAfterRemove).not.toContain(initialTodo);
+    const todosStateAfterRemove = getState().todos;
+    expect(todosStateAfterRemove.items).not.toContain(initialTodo);
   });
 });

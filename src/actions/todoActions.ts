@@ -1,32 +1,78 @@
-import { ReduxActionTypes } from '.';
 import {
   Todo,
   AddTodoAction,
-  ToggleTodoAction,
   RemoveTodoAction,
   FetchTodosAction,
   FetchTodosSuccessAction,
   FetchTodosFailedAction,
+  AddTodoSuccessAction,
+  AddTodoFailedAction,
+  UpdateTodoAction,
+  UpdateTodoSuccessAction,
+  UpdateTodoFailedAction,
+  RemoveTodoSuccessAction,
+  RemoveTodoFailedAction,
 } from 'src/interfaces';
+
+import { ReduxActionTypes } from '.';
 
 export const addTodo = (todo: Todo): AddTodoAction => {
   return {
-    type: ReduxActionTypes.ADD_TODO,
+    type: ReduxActionTypes.ADD_TODO_STARTED,
     todo,
   };
 };
 
-export const toggleTodo = (id: string): ToggleTodoAction => {
+export const addTodoSuccess = (todo: Todo): AddTodoSuccessAction => {
   return {
-    type: ReduxActionTypes.TOGGLE_TODO,
-    id,
+    type: ReduxActionTypes.ADD_TODO_SUCEESS,
+    todo,
+  };
+};
+
+export const addTodoFailed = (): AddTodoFailedAction => {
+  return {
+    type: ReduxActionTypes.ADD_TODO_FAILED,
+  };
+};
+
+export const updateTodo = (todo: Todo): UpdateTodoAction => {
+  return {
+    type: ReduxActionTypes.UPDATE_TODO_STARTED,
+    todo,
+  };
+};
+
+export const updateTodoSuccess = (todo: Todo): UpdateTodoSuccessAction => {
+  return {
+    type: ReduxActionTypes.UPDATE_TODO_SUCCESS,
+    todo,
+  };
+};
+
+export const updateTodoFailed = (): UpdateTodoFailedAction => {
+  return {
+    type: ReduxActionTypes.UPDATE_TODO_FAILED,
   };
 };
 
 export const removeTodo = (id: string): RemoveTodoAction => {
   return {
-    type: ReduxActionTypes.REMOVE_TODO,
+    type: ReduxActionTypes.REMOVE_TODO_STARTED,
     id,
+  };
+};
+
+export const removeTodoSuccess = (todo: Todo): RemoveTodoSuccessAction => {
+  return {
+    type: ReduxActionTypes.REMOVE_TODO_SUCCESS,
+    todo,
+  };
+};
+
+export const removeTodoFailed = (): RemoveTodoFailedAction => {
+  return {
+    type: ReduxActionTypes.REMOVE_TODO_FAILED,
   };
 };
 

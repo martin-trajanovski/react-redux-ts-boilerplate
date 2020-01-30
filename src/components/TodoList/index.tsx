@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import TodoItem from '../TodoItem';
+import { fetchTodos } from 'src/actions';
 import { Todo } from 'src/interfaces';
 import { AppState } from 'src/reducers';
-import { fetchTodos } from 'src/actions';
+
+import TodoItem from '../TodoItem';
 
 const TodoList: React.FC = () => {
   const todoState = useSelector((state: AppState) => state.todos);
@@ -23,7 +24,7 @@ const TodoList: React.FC = () => {
   }
 
   const todoItems = todoState.items.map((todo: Todo) => (
-    <TodoItem key={todo.id} todo={todo} />
+    <TodoItem key={todo._id} todo={todo} />
   ));
 
   return <div className="todo-list">{todoItems}</div>;

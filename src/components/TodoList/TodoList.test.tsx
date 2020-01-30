@@ -1,10 +1,12 @@
 import React from 'react';
-import TodoList from '.';
+
+import { fetchTodosSuccess } from '../../actions';
 import {
   renderWithRedux,
   initialTestingAppState,
 } from '../../config/setupTests';
-import { fetchTodosSuccess } from '../../actions';
+
+import TodoList from '.';
 
 describe('TodoList component', () => {
   test(`When rendering the component,
