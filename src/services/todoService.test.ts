@@ -1,11 +1,14 @@
-import nock from 'nock';
-
+import axiosInstance from '../axios';
 import { todoService } from './todoService';
 
-// NOTE: Using type assertion because env variables are defined as (string | undefined) and that is not acceptable for nock url(string | RegExp | Url).
-const todosApi = nock(process.env.REACT_APP_API_ENDPOINT as string);
+/**
+ * NOTE: Mock axios instance and assign typed mock to new variable(so typescript won't complain when we call `mockImplementationOnce` on get).
+ * Let's make unit testing great again with Jest!
+ */
+jest.mock('../axios');
+const mockedAxiosInstance = axiosInstance as jest.Mocked<typeof axiosInstance>;
 
-const nockReply = (limitTo: number): void => {
+const mockedReply = (limitTo: number): void => {
   const todos = new Array(limitTo).fill(0).map((e, i) => {
     return {
       _id: i.toString(),
@@ -14,23 +17,19 @@ const nockReply = (limitTo: number): void => {
     };
   });
 
-  todosApi.get(`/todos?limit=${limitTo}`).reply(
-    200,
-    {
-      todos,
-    },
-    { 'Access-Control-Allow-Origin': '*' }
+  mockedAxiosInstance.get.mockImplementationOnce(() =>
+    Promise.resolve({ data: { todos } })
   );
 };
 
 afterAll(() => {
-  nock.cleanAll();
+  jest.clearAllMocks();
 });
 
 describe('Todos Service -> Get all todos with limitation', () => {
   test('When limitation is default, should fetch 10 todos successfully', async () => {
     const limitTo = 10;
-    nockReply(limitTo);
+    mockedReply(limitTo);
 
     const todosDefaultLimit = await todoService.getAll();
 
@@ -39,7 +38,7 @@ describe('Todos Service -> Get all todos with limitation', () => {
 
   test('When limitation is 5, should fetch 5 todos successfully ', async () => {
     const limitTo = 5;
-    nockReply(limitTo);
+    mockedReply(limitTo);
 
     const returnedTodos = await todoService.getAll(limitTo);
 

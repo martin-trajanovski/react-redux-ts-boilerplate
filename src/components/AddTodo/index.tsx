@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addTodo } from 'src/actions';
 import { Todo } from 'src/interfaces';
+import { AppState } from 'src/reducers';
 
 const AddTodo: React.FC = () => {
   const [value, setValue] = useState('');
   const dispatch = useDispatch();
+  const { saving, loading } = useSelector((state: AppState) => state.todos);
+  const shouldBeDisabled = saving || loading;
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
@@ -41,12 +44,13 @@ const AddTodo: React.FC = () => {
             value={value}
             onChange={handleChange}
             required
+            disabled={shouldBeDisabled}
           />
           <div className="input-group-append">
             <button
               type="submit"
               className="btn btn-outline-primary"
-              disabled={!value}
+              disabled={!value || shouldBeDisabled}
             >
               Add todo
             </button>
