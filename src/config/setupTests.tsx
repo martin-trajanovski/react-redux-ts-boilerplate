@@ -18,6 +18,7 @@ export const initialTestingAppState: AppState = {
     items: [{ _id: 'test', title: 'Test todo app', completed: false }],
     loading: false,
     saving: false,
+    updating: false,
     error: false,
   },
 };

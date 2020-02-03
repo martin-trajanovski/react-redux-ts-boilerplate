@@ -5,6 +5,7 @@ export const initialState: TodoState = {
   items: [],
   loading: false,
   saving: false,
+  updating: false,
   error: false,
 };
 
@@ -32,7 +33,7 @@ export const todoReducer = (
       return { ...state, saving: false, error: true };
     }
     case ReduxActionTypes.UPDATE_TODO_STARTED: {
-      return { ...state, saving: true };
+      return { ...state, updating: true };
     }
     case ReduxActionTypes.UPDATE_TODO_SUCCESS: {
       const updatedTodos = state.items.map(todo => {
@@ -46,13 +47,13 @@ export const todoReducer = (
         return todo;
       });
 
-      return { ...state, saving: false, items: updatedTodos };
+      return { ...state, updating: false, items: updatedTodos };
     }
     case ReduxActionTypes.UPDATE_TODO_FAILED: {
-      return { ...state, saving: false, error: true };
+      return { ...state, updating: false, error: true };
     }
     case ReduxActionTypes.REMOVE_TODO_STARTED: {
-      return { ...state, saving: true };
+      return { ...state, updating: true };
     }
     case ReduxActionTypes.REMOVE_TODO_SUCCESS: {
       const removeIndex = state.items.findIndex(
@@ -64,12 +65,12 @@ export const todoReducer = (
 
       return {
         ...state,
-        saving: false,
+        updating: false,
         items: newTodos,
       };
     }
     case ReduxActionTypes.REMOVE_TODO_FAILED: {
-      return { ...state, saving: false, error: true };
+      return { ...state, updating: false, error: true };
     }
     default:
       return state;

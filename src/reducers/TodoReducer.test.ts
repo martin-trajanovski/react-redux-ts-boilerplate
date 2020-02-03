@@ -45,10 +45,10 @@ describe('Todo Reducer -> Test all actions', () => {
     expect(newState.error).toBeTruthy();
   });
 
-  test('When dispatching removeTodo action with todo id as parameter, it should enter saving state', () => {
+  test('When dispatching removeTodo action with todo id as parameter, it should enter updating state', () => {
     const newState = todoReducer(todos, removeTodo(initialTodo._id));
 
-    expect(newState.saving).toBeTruthy();
+    expect(newState.updating).toBeTruthy();
   });
 
   test('When dispatching removeTodoSuccess action with todo as parameter, it should be removed from the state successfully', () => {
@@ -58,10 +58,10 @@ describe('Todo Reducer -> Test all actions', () => {
     expect(newState.items).not.toContain(initialTodo);
   });
 
-  test('When dispatching updateTodo action with todo as parameter, it should enter saving state', () => {
+  test('When dispatching updateTodo action with todo as parameter, it should enter updating state', () => {
     const newState = todoReducer(todos, updateTodo(initialTodo));
 
-    expect(newState.saving).toBeTruthy();
+    expect(newState.updating).toBeTruthy();
   });
 
   test('When dispatching updateTodoSuccess action with todo as parameter, it should update the todo successfully', () => {
