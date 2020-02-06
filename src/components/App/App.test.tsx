@@ -5,11 +5,11 @@ import { renderWithRedux } from '../../config/setupTests';
 import App from '.';
 
 describe('App component', () => {
-  test('When app component rendered, should show title "lovely todo app"', () => {
-    const { getByText } = renderWithRedux(<App />);
+  test('When app component rendered, should show the main `App` wraper', () => {
+    const { getByTestId } = renderWithRedux(<App />);
 
-    const titleElement = getByText(/lovely todo app/i);
+    const mainAppElement = getByTestId('App');
 
-    expect(titleElement).toBeInTheDocument();
+    expect(mainAppElement).toBeInTheDocument();
   });
 });

@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux';
-import { TodoState } from 'src/interfaces';
+import { TodoState, UserState } from 'src/interfaces';
 
+import { authReducer } from './auth.reducer';
 import { todoReducer } from './todoReducer';
 
 export const rootReducer = combineReducers({
   todos: todoReducer,
+  auth: authReducer,
 });
 
-export type AppState = { todos: TodoState };
+export type AppState = { todos: TodoState; auth: UserState };

@@ -7,8 +7,7 @@ import { AppState } from 'src/reducers';
 const AddTodo: React.FC = () => {
   const [value, setValue] = useState('');
   const dispatch = useDispatch();
-  const { saving, loading } = useSelector((state: AppState) => state.todos);
-  const shouldBeDisabled = saving || loading;
+  const saving = useSelector((state: AppState) => state.todos.saving);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
@@ -44,13 +43,13 @@ const AddTodo: React.FC = () => {
             value={value}
             onChange={handleChange}
             required
-            disabled={shouldBeDisabled}
+            disabled={saving}
           />
           <div className="input-group-append">
             <button
               type="submit"
               className="btn btn-outline-primary"
-              disabled={!value || shouldBeDisabled}
+              disabled={!value || saving}
             >
               Add todo
             </button>

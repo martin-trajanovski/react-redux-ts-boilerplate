@@ -1,20 +1,26 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
+import { Router, Route, Switch } from 'react-router-dom';
+import { history } from 'src/helpers/history';
 
-import './App.scss';
-import AddTodo from '../AddTodo';
-import TodoList from '../TodoList';
+import { PrivateRoute } from '../PrivateRoute';
+import Spinner from '../Spinner';
+
+const Home = lazy(() => import('../Home'));
+const Login = lazy(() => import('../Login'));
 
 const App: React.FC = () => {
   return (
-    <div className="App">
+    <div data-testid="App" className="App">
       <div className="container">
-        <div className="row">
-          <div className="col-md-6 offset-md-3">
-            <h4>My lovely todo app</h4>
-            <AddTodo />
-            <TodoList />
-          </div>
-        </div>
+        <Router history={history}>
+          <Suspense fallback={<Spinner />}>
+            <Switch>
+              <PrivateRoute exact path="/" component={Home} />
+              <Route path="/login" component={Login} />
+              {/* <Route path="/register" component={RegisterPage} /> */}
+            </Switch>
+          </Suspense>
+        </Router>
       </div>
     </div>
   );

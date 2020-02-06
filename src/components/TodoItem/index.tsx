@@ -26,7 +26,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
   };
 
   return (
-    <div className={`todo-item ${todoClass}`}>
+    <div data-testid="todo-item" className={`todo-item ${todoClass}`}>
       <span className="todo-item-text" onClick={handleToggleClick}>
         {todo.title}
       </span>

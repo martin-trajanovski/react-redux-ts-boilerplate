@@ -3,10 +3,12 @@
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom/extend-expect';
+import 'mutationobserver-shim'; // https://react-hook-form.com/faqs/#TestingfailedduetoMutationObserver
 import { render, RenderResult } from '@testing-library/react';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { createStore, Store } from 'redux';
+import { User } from 'src/interfaces';
 
 import { rootReducer, AppState } from '../reducers';
 import registerIcons from './registerIcons';
@@ -19,6 +21,11 @@ export const initialTestingAppState: AppState = {
     loading: false,
     saving: false,
     updating: false,
+    error: false,
+  },
+  auth: {
+    loggedInUser: {} as User,
+    loading: false,
     error: false,
   },
 };

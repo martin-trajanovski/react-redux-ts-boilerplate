@@ -7,6 +7,7 @@ exports[`TodoList component When rendering the component, should match the snaps
   >
     <div
       class="todo-item "
+      data-testid="todo-item"
     >
       <span
         class="todo-item-text"

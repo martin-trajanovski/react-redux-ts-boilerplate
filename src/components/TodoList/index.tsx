@@ -4,6 +4,7 @@ import { fetchTodos } from 'src/actions';
 import { Todo } from 'src/interfaces';
 import { AppState } from 'src/reducers';
 
+import Spinner from '../Spinner';
 import TodoItem from '../TodoItem';
 
 const TodoList: React.FC = () => {
@@ -18,7 +19,7 @@ const TodoList: React.FC = () => {
   if (todoState.loading) {
     return (
       <div className="todo-list">
-        <div>Loading...</div>
+        <Spinner />
       </div>
     );
   }
