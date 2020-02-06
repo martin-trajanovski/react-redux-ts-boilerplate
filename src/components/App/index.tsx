@@ -7,6 +7,7 @@ import Spinner from '../Spinner';
 
 const Home = lazy(() => import('../Home'));
 const Login = lazy(() => import('../Login'));
+const Register = lazy(() => import('../Register'));
 
 const App: React.FC = () => {
   return (
@@ -17,7 +18,7 @@ const App: React.FC = () => {
             <Switch>
               <PrivateRoute exact path="/" component={Home} />
               <Route path="/login" component={Login} />
-              {/* <Route path="/register" component={RegisterPage} /> */}
+              <Route path="/register" component={Register} />
             </Switch>
           </Suspense>
         </Router>

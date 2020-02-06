@@ -1,5 +1,6 @@
 import { ReduxActionTypes } from 'src/actions';
 import { LoginFormData } from 'src/components/Login';
+import { RegisterFormData } from 'src/components/Register';
 
 import { ReduxBaseAction } from '../reduxBaseActionInterface';
 import { TokenDataInterface } from './auth.interface';
@@ -16,9 +17,28 @@ export interface LoginSuccessAction extends ReduxBaseAction {
 
 export interface LoginFailedAction extends ReduxBaseAction {
   type: ReduxActionTypes.LOGIN_FAILED;
+  error: string;
+}
+
+export interface RegisterAction extends ReduxBaseAction {
+  type: ReduxActionTypes.REGISTER_STARTED;
+  data: RegisterFormData;
+}
+
+export interface RegisterSuccessAction extends ReduxBaseAction {
+  type: ReduxActionTypes.REGISTER_SUCCESS;
+  data: any;
+}
+
+export interface RegisterFailedAction extends ReduxBaseAction {
+  type: ReduxActionTypes.REGISTER_FAILED;
+  error: string;
 }
 
 export type AuthReducerActions =
   | LoginAction
   | LoginSuccessAction
-  | LoginFailedAction;
+  | LoginFailedAction
+  | RegisterAction
+  | RegisterSuccessAction
+  | RegisterFailedAction;

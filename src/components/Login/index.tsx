@@ -1,9 +1,10 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { login } from 'src/actions';
+import { AppState } from 'src/reducers';
 import { object, string } from 'yup';
-import './Login.scss';
 
 export type LoginFormData = {
   email: string;
@@ -21,7 +22,7 @@ const Login: React.FC = () => {
   const { register, handleSubmit, errors } = useForm<LoginFormData>({
     validationSchema: LoginSchema,
   });
-
+  const error = useSelector((state: AppState) => state.auth.error);
   const dispatch = useDispatch();
 
   const onSubmit = (data: LoginFormData): void => {
@@ -29,7 +30,7 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="login row">
+    <div className="form-align-middle row">
       <div className="col-md-4 offset-md-4">
         <form
           name="form"
@@ -46,7 +47,9 @@ const Login: React.FC = () => {
               ref={register}
             />
             {errors.email && (
-              <span data-testid="email-errors">{errors.email.message}</span>
+              <span className="text-danger" data-testid="email-errors">
+                {errors.email.message}
+              </span>
             )}
           </div>
           <div className="form-group">
@@ -59,12 +62,12 @@ const Login: React.FC = () => {
               ref={register}
             />
             {errors.password && (
-              <span data-testid="password-errors">
+              <span className="text-danger" data-testid="password-errors">
                 {errors.password.message}
               </span>
             )}
           </div>
-          <div className="form-group">
+          <div className="form-group text-center">
             <button
               type="submit"
               data-testid="login-button"
@@ -72,7 +75,11 @@ const Login: React.FC = () => {
             >
               Login
             </button>
+            <Link to="/register" className="btn btn-link">
+              Register
+            </Link>
           </div>
+          {error && <p className="text-danger text-center">{error}</p>}
         </form>
       </div>
     </div>

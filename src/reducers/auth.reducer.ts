@@ -6,7 +6,7 @@ import { User } from 'src/interfaces';
 export const initialState: UserState = {
   loggedInUser: {} as User,
   loading: false,
-  error: false,
+  error: '',
 };
 
 export const authReducer = (
@@ -21,7 +21,16 @@ export const authReducer = (
       return { ...state, loading: false };
     }
     case ReduxActionTypes.LOGIN_FAILED: {
-      return { ...state, loading: false, error: true };
+      return { ...state, loading: false, error: action.error };
+    }
+    case ReduxActionTypes.REGISTER_STARTED: {
+      return { ...state, loading: true };
+    }
+    case ReduxActionTypes.REGISTER_SUCCESS: {
+      return { ...state, loading: false };
+    }
+    case ReduxActionTypes.REGISTER_FAILED: {
+      return { ...state, loading: false, error: action.error };
     }
     default:
       return state;

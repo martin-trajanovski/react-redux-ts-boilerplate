@@ -1,10 +1,14 @@
 import { LoginFormData } from 'src/components/Login';
-import { TokenDataInterface } from 'src/interfaces/authentication/auth.interface';
+import { RegisterFormData } from 'src/components/Register';
 import {
   LoginAction,
   LoginSuccessAction,
   LoginFailedAction,
-} from 'src/interfaces/authentication/authActions.interface';
+  RegisterAction,
+  RegisterSuccessAction,
+  RegisterFailedAction,
+  TokenDataInterface,
+} from 'src/interfaces';
 
 import { ReduxActionTypes } from './actionTypes';
 
@@ -22,8 +26,30 @@ export const loginSuccess = (data: TokenDataInterface): LoginSuccessAction => {
   };
 };
 
-export const loginFailed = (): LoginFailedAction => {
+export const loginFailed = (error: string): LoginFailedAction => {
   return {
     type: ReduxActionTypes.LOGIN_FAILED,
+    error,
+  };
+};
+
+export const registerUser = (data: RegisterFormData): RegisterAction => {
+  return {
+    type: ReduxActionTypes.REGISTER_STARTED,
+    data,
+  };
+};
+
+export const registerUserSuccess = (data: any): RegisterSuccessAction => {
+  return {
+    type: ReduxActionTypes.REGISTER_SUCCESS,
+    data,
+  };
+};
+
+export const registerUserFailed = (error: string): RegisterFailedAction => {
+  return {
+    type: ReduxActionTypes.REGISTER_FAILED,
+    error,
   };
 };

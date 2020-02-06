@@ -1,7 +1,13 @@
+import { AxiosAuthRefreshRequestConfig } from 'axios-auth-refresh';
 import axiosInstance from 'src/axios';
 import { LoginFormData } from 'src/components/Login';
+import { RegisterFormData } from 'src/components/Register';
 import { history } from 'src/helpers/history';
 import { TokenDataInterface, AuthorizationHeader } from 'src/interfaces';
+
+const skipAuthRefreshConfig: AxiosAuthRefreshRequestConfig = {
+  skipAuthRefresh: true,
+};
 
 const getToken = (): TokenDataInterface => {
   // TODO: This user might me renamed with auth or something...
@@ -27,6 +33,28 @@ const getAuthHeader = (): AuthorizationHeader => {
   return header;
 };
 
+const register = async (
+  data: RegisterFormData
+): Promise<TokenDataInterface> => {
+  const requestOptions = {
+    body: data,
+  };
+
+  try {
+    const { data } = await axiosInstance.post(
+      '/auth/register',
+      requestOptions.body,
+      skipAuthRefreshConfig
+    );
+
+    history.push('/login');
+
+    return data;
+  } catch (error) {
+    throw error.response.data.message;
+  }
+};
+
 const login = async (data: LoginFormData): Promise<TokenDataInterface> => {
   const requestOptions = {
     body: data,
@@ -35,7 +63,8 @@ const login = async (data: LoginFormData): Promise<TokenDataInterface> => {
   try {
     const { data } = await axiosInstance.post(
       '/auth/login',
-      requestOptions.body
+      requestOptions.body,
+      skipAuthRefreshConfig
     );
 
     localStorage.setItem('user', JSON.stringify(data));
@@ -45,7 +74,7 @@ const login = async (data: LoginFormData): Promise<TokenDataInterface> => {
 
     return data;
   } catch (error) {
-    throw error;
+    throw error.response.data.message;
   }
 };
 
@@ -61,7 +90,11 @@ const logout = async (): Promise<boolean> => {
   }
 
   try {
-    await axiosInstance.post('/auth/logout', { refreshToken });
+    await axiosInstance.post(
+      '/auth/logout',
+      { refreshToken },
+      skipAuthRefreshConfig
+    );
     localStorage.removeItem('user');
 
     history.push('/login');
@@ -78,9 +111,13 @@ const refreshToken = async (): Promise<boolean> => {
   try {
     const { refreshToken } = getToken();
 
-    const { data } = await axiosInstance.post('/auth/refreshToken', {
-      refreshToken,
-    });
+    const { data } = await axiosInstance.post(
+      '/auth/refreshToken',
+      {
+        refreshToken,
+      },
+      skipAuthRefreshConfig
+    );
 
     const user = getToken();
     user.authToken = data.authToken;
@@ -104,6 +141,7 @@ const isAuthenticated = (): boolean => {
 };
 
 export const authService = {
+  register,
   login,
   logout,
   refreshToken,

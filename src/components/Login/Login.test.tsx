@@ -77,10 +77,7 @@ describe('Login Component', () => {
     // NOTE: Must wait for expectations to pass because form validation is async. (https://react-hook-form.com/faqs#TestingReactHookForm)
     wait(() => {
       expect(loginSpy).toBeCalledTimes(1);
-      expect(loginSpy).toBeCalledWith({
-        email: fakeCredentials.email,
-        password: fakeCredentials.password,
-      });
+      expect(loginSpy).toBeCalledWith(fakeCredentials);
     });
   });
 });

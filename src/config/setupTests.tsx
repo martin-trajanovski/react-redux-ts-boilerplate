@@ -7,6 +7,7 @@ import 'mutationobserver-shim'; // https://react-hook-form.com/faqs/#Testingfail
 import { render, RenderResult } from '@testing-library/react';
 import React from 'react';
 import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router-dom';
 import { createStore, Store } from 'redux';
 import { User } from 'src/interfaces';
 
@@ -26,7 +27,7 @@ export const initialTestingAppState: AppState = {
   auth: {
     loggedInUser: {} as User,
     loading: false,
-    error: false,
+    error: '',
   },
 };
 
@@ -47,7 +48,11 @@ export const renderWithRedux = (
   }: WithReduxConfig = {}
 ): RenderWithReduxResult => {
   return {
-    ...render(<Provider store={store}>{ui}</Provider>),
+    ...render(
+      <Provider store={store}>
+        <MemoryRouter>{ui}</MemoryRouter>
+      </Provider>
+    ),
     store,
   };
 };
