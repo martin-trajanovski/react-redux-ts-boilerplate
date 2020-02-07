@@ -69,7 +69,7 @@ describe('Register Component', () => {
     expect(emailErrorsElement.innerHTML).toBe('Email is invalid');
   });
 
-  test('When submitting the form with password different than confirm password, it should show `Passwords do not match` error', async () => {
+  test('When submitting the form with password different then confirm password, it should show `Passwords do not match` error', async () => {
     const { getByTestId, findByTestId } = renderWithRedux(<Register />);
     const registerForm = getByTestId('register-form');
     const passwordInput = getByTestId('register-password-input');
@@ -77,10 +77,10 @@ describe('Register Component', () => {
 
     act(() => {
       fireEvent.change(passwordInput, {
-        target: { value: faker.random.word() },
+        target: { value: faker.internet.password() },
       });
       fireEvent.change(confirmPasswordInput, {
-        target: { value: faker.random.word() },
+        target: { value: faker.internet.password() },
       });
       fireEvent.submit(registerForm);
     });

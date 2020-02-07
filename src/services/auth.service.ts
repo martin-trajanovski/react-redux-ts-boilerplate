@@ -51,7 +51,11 @@ const register = async (
 
     return data;
   } catch (error) {
-    throw error.response.data.message;
+    if (error.response) {
+      throw error.response.data.message;
+    } else {
+      throw error.message;
+    }
   }
 };
 
@@ -74,7 +78,11 @@ const login = async (data: LoginFormData): Promise<TokenDataInterface> => {
 
     return data;
   } catch (error) {
-    throw error.response.data.message;
+    if (error.response) {
+      throw error.response.data.message;
+    } else {
+      throw error.message;
+    }
   }
 };
 
