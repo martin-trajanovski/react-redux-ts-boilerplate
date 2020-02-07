@@ -25,9 +25,9 @@ function* loginAsync(action: LoginAction): Generator {
 
 function* registerAsync(action: RegisterAction): Generator {
   try {
-    const data = yield call(authService.register, action.data);
+    yield call(authService.register, action.data);
 
-    yield put(registerUserSuccess(data));
+    yield put(registerUserSuccess());
   } catch (error) {
     yield put(registerUserFailed(error));
   }

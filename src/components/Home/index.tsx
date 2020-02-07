@@ -1,21 +1,17 @@
 import React from 'react';
-import { authService } from 'src/services';
 
 import AddTodo from '../AddTodo';
+import Logout from '../Logout';
 import TodoList from '../TodoList';
 
 const Home: React.FC = () => {
-  const logout = (): void => {
-    authService.logout();
-  };
-
   return (
     <div className="row">
       <div className="col-md-6 offset-md-3">
         <h4 className="text-center">My lovely todo app</h4>
         <AddTodo />
         <TodoList />
-        <button onClick={logout}>Logout</button>
+        <Logout />
       </div>
     </div>
   );

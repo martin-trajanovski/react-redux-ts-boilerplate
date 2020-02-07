@@ -27,7 +27,6 @@ export interface RegisterAction extends ReduxBaseAction {
 
 export interface RegisterSuccessAction extends ReduxBaseAction {
   type: ReduxActionTypes.REGISTER_SUCCESS;
-  data: any;
 }
 
 export interface RegisterFailedAction extends ReduxBaseAction {

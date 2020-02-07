@@ -40,10 +40,9 @@ export const registerUser = (data: RegisterFormData): RegisterAction => {
   };
 };
 
-export const registerUserSuccess = (data: any): RegisterSuccessAction => {
+export const registerUserSuccess = (): RegisterSuccessAction => {
   return {
     type: ReduxActionTypes.REGISTER_SUCCESS,
-    data,
   };
 };
 
