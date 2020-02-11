@@ -38,7 +38,7 @@ const Register: React.FC = () => {
   };
 
   return (
-    <div className="form-align-middle row">
+    <div className="row min-vh-100 align-items-center">
       <div className="col-md-4 offset-md-4">
         <form
           name="form"

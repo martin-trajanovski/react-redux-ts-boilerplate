@@ -15,7 +15,13 @@ const App: React.FC = () => {
     <div data-testid="App" className="App">
       <div className="container">
         <Router history={history}>
-          <Suspense fallback={<Spinner />}>
+          <Suspense
+            fallback={
+              <div className="min-vh-100 d-flex align-items-center justify-content-center">
+                <Spinner />
+              </div>
+            }
+          >
             <Switch>
               <PrivateRoute exact path="/" component={Home} />
               <Route path="/login" component={Login} />
