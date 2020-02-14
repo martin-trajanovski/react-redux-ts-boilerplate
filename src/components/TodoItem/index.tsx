@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useDispatch } from 'react-redux';
+
 import { Todo } from 'src/interfaces';
 
 import { updateTodo, removeTodo } from '../../actions';

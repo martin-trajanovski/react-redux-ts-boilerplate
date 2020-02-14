@@ -1,5 +1,5 @@
 import axiosInstance from '../axios';
-import { todoService } from './todoService';
+import { todoService } from './todo.service';
 
 /**
  * NOTE: Mock axios instance and assign typed mock to new variable(so typescript won't complain when we call `mockImplementationOnce` on get).

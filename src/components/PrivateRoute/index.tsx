@@ -6,6 +6,7 @@ import {
   RouteProps,
   RouteComponentProps,
 } from 'react-router-dom';
+
 import { authService } from 'src/services';
 
 export const PrivateRoute: React.FC<RouteProps> = ({ component, ...rest }) => {

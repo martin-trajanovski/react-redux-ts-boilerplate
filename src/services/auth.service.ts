@@ -1,4 +1,5 @@
 import { AxiosAuthRefreshRequestConfig } from 'axios-auth-refresh';
+
 import axiosInstance from 'src/axios';
 import { LoginFormData } from 'src/components/Login';
 import { RegisterFormData } from 'src/components/Register';
@@ -142,6 +143,7 @@ const refreshToken = async (): Promise<boolean> => {
 };
 
 const isAuthenticated = (): boolean => {
+  // FIXME: This is not a good check if user is authenticated or not.
   const token = getToken();
   const isValidToken = !!token && !!token.authToken;
 

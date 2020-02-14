@@ -1,2 +1,2 @@
-export * from './todoService';
+export * from './todo.service';
 export * from './auth.service';

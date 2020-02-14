@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
+
 import { authService } from 'src/services';
 
 const Logout: React.FC = () => {

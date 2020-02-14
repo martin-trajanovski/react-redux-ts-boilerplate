@@ -1,4 +1,5 @@
 import faker from 'faker';
+
 import { initialTestingAppState } from 'src/config/setupTests';
 import { Todo } from 'src/interfaces';
 
@@ -11,7 +12,7 @@ import {
   removeTodoSuccess,
   updateTodoSuccess,
 } from '../actions';
-import { todoReducer } from './todoReducer';
+import { todoReducer } from './todo.reducer';
 
 const { todos } = initialTestingAppState;
 const [initialTodo] = todos.items;

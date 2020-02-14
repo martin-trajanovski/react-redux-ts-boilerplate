@@ -2,9 +2,10 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { object, string } from 'yup';
+
 import { login } from 'src/actions';
 import { AppState } from 'src/reducers';
-import { object, string } from 'yup';
 
 export type LoginFormData = {
   email: string;

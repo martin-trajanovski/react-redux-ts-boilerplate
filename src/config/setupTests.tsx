@@ -9,6 +9,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import { createStore, Store } from 'redux';
+
 import { User } from 'src/interfaces';
 
 import { rootReducer, AppState } from '../reducers';

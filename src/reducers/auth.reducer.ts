@@ -18,7 +18,7 @@ export const authReducer = (
       return { ...state, loading: true };
     }
     case ReduxActionTypes.LOGIN_SUCCESS: {
-      return { ...state, loading: false };
+      return { ...state, loading: false, error: '' };
     }
     case ReduxActionTypes.LOGIN_FAILED: {
       return { ...state, loading: false, error: action.error };
@@ -27,7 +27,7 @@ export const authReducer = (
       return { ...state, loading: true };
     }
     case ReduxActionTypes.REGISTER_SUCCESS: {
-      return { ...state, loading: false };
+      return { ...state, loading: false, error: '' };
     }
     case ReduxActionTypes.REGISTER_FAILED: {
       return { ...state, loading: false, error: action.error };
